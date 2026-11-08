@@ -1,0 +1,22 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI 3.1.0 exact optional example
+  version: '1'
+components:
+  schemas:
+    Foo:
+      type: object
+      properties:
+        foo:
+          type: string
+        bar:
+          type:
+            - string
+            - 'null'
+        baz:
+          default: 0
+          type: integer
+        qux:
+          type: string
+      required:
+        - qux

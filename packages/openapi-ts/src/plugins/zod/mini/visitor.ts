@@ -55,7 +55,12 @@ export function createVisitor(
       const needsDefault = result.meta.default !== undefined;
       const needsNullable = result.meta.nullable;
 
-      if (optional && needsNullable) {
+      if (optional && plugin.config.exactOptional) {
+        if (needsNullable) {
+          chain = $(z).attr(identifiers.nullable).call(chain);
+        }
+        chain = $(z).attr(identifiers.exactOptional).call(chain);
+      } else if (optional && needsNullable) {
         chain = $(z).attr(identifiers.nullish).call(chain);
       } else if (optional) {
         chain = $(z).attr(identifiers.optional).call(chain);

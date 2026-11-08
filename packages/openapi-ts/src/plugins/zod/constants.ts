@@ -18,6 +18,7 @@ export const identifiers = {
   discriminatedUnion: 'discriminatedUnion',
   email: 'email',
   enum: 'enum',
+  exactOptional: 'exactOptional',
   extend: 'extend',
   globalRegistry: 'globalRegistry',
   gt: 'gt',

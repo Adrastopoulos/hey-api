@@ -43,6 +43,20 @@ for (const zodVersion of zodVersions) {
       },
       {
         config: createConfig({
+          input: 'exact-optional.yaml',
+          output: 'exact-optional',
+          plugins: [
+            {
+              compatibilityVersion: zodVersion.compatibilityVersion,
+              exactOptional: true,
+              name: 'zod',
+            },
+          ],
+        }),
+        description: 'generates exact optional properties',
+      },
+      {
+        config: createConfig({
           input: 'schema-const.yaml',
           output: 'schema-const',
         }),

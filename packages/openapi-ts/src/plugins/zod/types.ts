@@ -208,6 +208,23 @@ export type UserConfig = Plugin.Name<'zod'> &
           };
         };
     /**
+     * End optional object properties with `.exactOptional()` instead of
+     * `.optional()`, and optional nullable properties with
+     * `.nullable().exactOptional()` instead of `.nullish()`.
+     *
+     * The output type of such a property is `key?: T`, not
+     * `key?: T | undefined`. This matches the types from
+     * `@hey-api/typescript` when you compile with
+     * `exactOptionalPropertyTypes`. An explicit `undefined` value fails
+     * validation.
+     *
+     * Requires Zod 4.3 or later. Zod 3 has no `.exactOptional()`, so this
+     * option has no effect when `compatibilityVersion` is `3`.
+     *
+     * @default false
+     */
+    exactOptional?: boolean;
+    /**
      * Enable Zod metadata support? It's often useful to associate a schema with
      * some additional metadata for documentation, code generation, AI
      * structured outputs, form validation, and other purposes.
@@ -1341,6 +1358,8 @@ export type Config = Plugin.Name<'zod'> &
     };
     /** Configuration for reusable schema definitions. */
     definitions: NamingOptions & FeatureToggle & TypeOptions;
+    /** End optional object properties with `.exactOptional()`? */
+    exactOptional: boolean;
     /** Enable Zod metadata support? */
     metadata:
       | boolean

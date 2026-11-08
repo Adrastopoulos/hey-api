@@ -269,6 +269,37 @@ export default {
   </TabItem>
 </Tabs>
 
+## Exact Optional Properties
+
+By default, an optional property uses `z.optional()`. Its output type is `key?: T | undefined`. With [`exactOptionalPropertyTypes`](https://www.typescriptlang.org/tsconfig/#exactOptionalPropertyTypes), this type does not match the `key?: T` type from `@hey-api/typescript`. Set `exactOptional` to `true` to use `z.exactOptional()` instead. Then an explicit `undefined` value fails validation. This option requires Zod 4.3 or later.
+
+<Tabs>
+  <TabItem label="example">
+```ts title="zod.gen.ts"
+export const zFoo = z.object({
+  bar: z.exactOptional(z.string()),
+  baz: z.exactOptional(z.nullable(z.string())),
+});
+```
+  </TabItem>
+  <TabItem label="config">
+```js {9} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  plugins: [
+    // ...other plugins
+    {
+      name: 'zod',
+      compatibilityVersion: 'mini',
+      exactOptional: true,
+    },
+  ],
+};
+```
+  </TabItem>
+</Tabs>
+
 ## Metadata
 
 It's often useful to associate a schema with some additional [metadata](https://zod.dev/metadata) for documentation, code generation, AI structured outputs, form validation, and other purposes. You can set `metadata` to `true` to attach descriptions to schemas when available.

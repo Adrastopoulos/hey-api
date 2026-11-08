@@ -81,6 +81,7 @@ export const defaultConfig: ZodPlugin['Config'] = {
         },
       },
     },
+    exactOptional: false,
     includeInEntry: false,
     metadata: false,
     requests: {
