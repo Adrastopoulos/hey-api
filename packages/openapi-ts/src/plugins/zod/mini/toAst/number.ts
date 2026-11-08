@@ -1,11 +1,10 @@
 import type { SchemaVisitorContext, SchemaWithType } from '@hey-api/shared';
 
 import { $ } from '../../../../ts-dsl';
-import { maybeBigInt, shouldCoerceToBigInt } from '../../../shared/utils/coerce';
-import { getIntegerLimit } from '../../../shared/utils/formats';
 import { identifiers } from '../../constants';
 import type { NumberResolverContext } from '../../resolvers';
 import type { Chain, ChainResult } from '../../shared/chain';
+import { numberUtils } from '../../shared/numbers';
 import type { ZodPlugin } from '../../types';
 
 function baseNode(ctx: NumberResolverContext): Chain {
@@ -124,11 +123,7 @@ export function numberToNode({
     symbols: {
       z,
     },
-    utils: {
-      getIntegerLimit,
-      maybeBigInt,
-      shouldCoerceToBigInt,
-    },
+    utils: numberUtils(plugin),
   };
   const resolver = plugin.config.$resolvers?.number ?? plugin.config['~resolvers']?.number;
   return resolver?.(ctx) ?? numberResolver(ctx);

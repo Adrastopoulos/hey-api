@@ -1,6 +1,7 @@
 import type { SchemaVisitorContext, SchemaWithType } from '@hey-api/shared';
 
 import { $ } from '../../../../../ts-dsl';
+import { isBigIntEnabled } from '../../../../shared/utils/coerce';
 import type { NumberResolverContext } from '../../resolvers';
 import type { Type } from '../../shared/types';
 import type { HeyApiTypeScriptPlugin } from '../../types';
@@ -16,7 +17,7 @@ function baseNode(ctx: NumberResolverContext): Type {
   const { plugin, schema } = ctx;
 
   if (schema.type === 'integer' && schema.format === 'int64') {
-    if (plugin.getPlugin('@hey-api/transformers')?.config.bigInt) {
+    if (isBigIntEnabled(plugin)) {
       return $.type('bigint');
     }
   }

@@ -1,3 +1,5 @@
+import type { PluginInstance } from '@hey-api/shared';
+
 import { $ } from '../../../ts-dsl';
 
 export type MaybeBigInt = (
@@ -8,6 +10,13 @@ export type ShouldCoerceToBigInt = (format: string | undefined) => boolean;
 
 export const shouldCoerceToBigInt: ShouldCoerceToBigInt = (format) =>
   format === 'int64' || format === 'uint64';
+
+/**
+ * Whether `@hey-api/transformers` converts `int64` integers to `bigint`
+ * values. `@hey-api/typescript` types them as `bigint` only in that case.
+ */
+export const isBigIntEnabled = (plugin: Pick<PluginInstance, 'getPlugin'>): boolean =>
+  Boolean(plugin.getPlugin('@hey-api/transformers')?.config.bigInt);
 
 export const maybeBigInt: MaybeBigInt = (value, format) => {
   if (!shouldCoerceToBigInt(format)) {

@@ -256,6 +256,34 @@ export default {
   </TabItem>
 </Tabs>
 
+## 64-bit Integers
+
+By default, `int64` and `uint64` integers are numbers, as in `@hey-api/typescript`. If the schema has no `minimum` or `maximum`, the limits are the safe integer range. If you enable `bigInt` in the [`@hey-api/transformers`](/docs/openapi/typescript/plugins/transformers#bigint) plugin, they are `bigint` values.
+
+<Tabs>
+  <TabItem label="example">
+```ts title="zod.gen.ts"
+export const zFoo = z.coerce.bigint();
+```
+  </TabItem>
+  <TabItem label="config">
+```js {6-9} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  plugins: [
+    // ...other plugins
+    {
+      bigInt: true,
+      name: '@hey-api/transformers',
+    },
+    'zod',
+  ],
+};
+```
+  </TabItem>
+</Tabs>
+
 ## Metadata
 
 It's often useful to associate a schema with some additional [metadata](https://zod.dev/metadata) for documentation, code generation, AI structured outputs, form validation, and other purposes. You can set `metadata` to `true` to attach descriptions to schemas when available.

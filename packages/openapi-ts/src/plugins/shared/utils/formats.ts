@@ -25,10 +25,26 @@ const integerRange: Record<string, [Range, Range]> = {
   uint8: [0, 255],
 };
 
+const safeIntegerRange: Record<string, [Range, Range]> = {
+  int64: [Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
+  uint64: [0, Number.MAX_SAFE_INTEGER],
+};
+
 export const getIntegerLimit: GetIntegerLimit = (format) => {
   if (!format) return;
   const range = integerRange[format];
   if (!range) return;
+  const errors = rangeErrors(format, range);
+  return { maxValue: range[1], minValue: range[0], ...errors };
+};
+
+/**
+ * Returns the integer limit of a format whose values are `number`s. A 64-bit
+ * integer is limited to the range a `number` holds exactly.
+ */
+export const getSafeIntegerLimit: GetIntegerLimit = (format) => {
+  const range = format ? safeIntegerRange[format] : undefined;
+  if (!format || !range) return getIntegerLimit(format);
   const errors = rangeErrors(format, range);
   return { maxValue: range[1], minValue: range[0], ...errors };
 };

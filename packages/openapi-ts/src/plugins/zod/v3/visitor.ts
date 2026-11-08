@@ -3,10 +3,10 @@ import type { SchemaExtractor, SchemaVisitor } from '@hey-api/shared';
 import { pathToJsonPointer } from '@hey-api/shared';
 
 import { $ } from '../../../ts-dsl';
-import { maybeBigInt, shouldCoerceToBigInt } from '../../shared/utils/coerce';
 import { identifiers } from '../constants';
 import { ZodContracts } from '../contracts';
 import { defaultMeta, inheritMeta } from '../shared/meta';
+import { numberUtils } from '../shared/numbers';
 import type { ProcessorContext } from '../shared/processor';
 import type { ZodFinal, ZodMeta, ZodResult } from '../shared/types';
 import type { ZodPlugin } from '../types';
@@ -32,8 +32,13 @@ export interface VisitorConfig {
   schemaExtractor?: SchemaExtractor<ProcessorContext>;
 }
 
-function getDefaultValue(meta: ZodMeta): ReturnType<typeof $.fromValue> {
-  return meta.format ? maybeBigInt(meta.default, meta.format) : $.fromValue(meta.default);
+function getDefaultValue(
+  meta: ZodMeta,
+  plugin: ZodPlugin['Instance'],
+): ReturnType<typeof $.fromValue> {
+  return meta.format
+    ? numberUtils(plugin).maybeBigInt(meta.default, meta.format)
+    : $.fromValue(meta.default);
 }
 
 export function createVisitor(
@@ -62,7 +67,7 @@ export function createVisitor(
       }
 
       if (needsDefault) {
-        chain = chain.attr(identifiers.default).call(getDefaultValue(result.meta));
+        chain = chain.attr(identifiers.default).call(getDefaultValue(result.meta, plugin));
       }
 
       return {
@@ -246,7 +251,7 @@ export function createVisitor(
       };
     },
     string(schema, ctx) {
-      if (shouldCoerceToBigInt(schema.format)) {
+      if (numberUtils(plugin).shouldCoerceToBigInt(schema.format)) {
         const chain = numberToNode({
           path: ctx.path,
           plugin,
