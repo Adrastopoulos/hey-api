@@ -4,7 +4,7 @@ import { $ } from '../../../../ts-dsl';
 import { identifiers } from '../../constants';
 import type { NumberResolverContext } from '../../resolvers';
 import type { Chain, ChainResult } from '../../shared/chain';
-import { numberUtils } from '../../shared/numbers';
+import { numberUtils, withSafeBounds } from '../../shared/numbers';
 import type { ZodPlugin } from '../../types';
 
 function baseNode(ctx: NumberResolverContext): Chain {
@@ -119,7 +119,7 @@ export function numberToNode({
     },
     path,
     plugin,
-    schema,
+    schema: withSafeBounds(plugin, schema),
     symbols: {
       z,
     },

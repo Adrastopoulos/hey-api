@@ -270,7 +270,7 @@ export default {
 
 ## 64-bit Integers
 
-By default, `int64` and `uint64` integers are numbers, as in `@hey-api/typescript`. If the schema has no `minimum` or `maximum`, the limits are the safe integer range. If you enable `bigInt` in the [`@hey-api/transformers`](/docs/openapi/typescript/plugins/transformers#bigint) plugin, they are `bigint` values.
+By default, `int64` and `uint64` integers are numbers, as in `@hey-api/typescript`. The schema keeps a `minimum` or `maximum` that is in the safe integer range. Otherwise, the limits are the safe integer range. If you enable `bigInt` in the [`@hey-api/transformers`](/docs/openapi/typescript/plugins/transformers#bigint) plugin, they are `bigint` values.
 
 <Tabs>
   <TabItem label="example">

@@ -130,6 +130,13 @@ for (const zodVersion of zodVersions) {
       },
       {
         config: createConfig({
+          input: 'validators-int64-bounds.yaml',
+          output: 'validators-int64-bounds',
+        }),
+        description: 'validator schemas with int64 bounds a number cannot hold',
+      },
+      {
+        config: createConfig({
           input: 'validators-circular-ref.json',
           output: 'validators-circular-ref',
         }),

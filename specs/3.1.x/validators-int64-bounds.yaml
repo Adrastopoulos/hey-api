@@ -1,0 +1,24 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI 3.1.0 validators int64 bounds example
+  version: '1'
+components:
+  schemas:
+    Foo:
+      type: object
+      properties:
+        foo:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          type: integer
+        bar:
+          format: uint64
+          maximum: 18446744073709551615
+          minimum: 0
+          type: integer
+        baz:
+          format: int64
+          maximum: 100
+          minimum: -100
+          type: integer
